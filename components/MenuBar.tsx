@@ -2,11 +2,23 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import ImageButton from './ImageButton';
 
-const MenuBar = () => {
+type Props = {
+  changeInputValue: (s: string) => void;
+  inputValue: string;
+};
+
+const MenuBar = ({ changeInputValue, inputValue }: Props) => {
+  function onPressBackSpace() {
+    if (inputValue.length <= 0) {
+      return;
+    }
+    changeInputValue(inputValue.slice(0, -1));
+  }
+
   return (
     <View style={styles.container}>
-      <ImageButton icon="history" />
-      <ImageButton icon="backspace" />
+      <ImageButton icon="history" onPress={() => {}} />
+      <ImageButton icon="backspace" onPress={onPressBackSpace} />
     </View>
   );
 };
