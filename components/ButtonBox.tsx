@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CircleButton from './CircleButton';
+import { calculate } from '../utils/calculate';
 
 type Props = {
   changeInputValue: (c: string) => void;
@@ -16,6 +17,22 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
 
   function clearInputValue() {
     changeInputValue('');
+  }
+
+  function validateLastLetter() {
+    const lastLetter = inputValue[inputValue.length - 1];
+    if ((lastLetter <= '9' && lastLetter >= '0') || lastLetter === ')') {
+      return false;
+    }
+    return true;
+  }
+
+  function onPressCalculateButton() {
+    if (validateLastLetter()) {
+      console.log('유효하지 않은 수식입니다.' + inputValue);
+    }
+    const result = calculate(inputValue);
+    changeInputValue(result);
   }
 
   return (
@@ -46,7 +63,7 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
       <CircleButton
         text="-"
         textColor="limegreen"
-        onPress={inputOneLetter('-')}
+        onPress={inputOneLetter('−')}
       />
       <CircleButton text="1" onPress={inputOneLetter('1')} />
       <CircleButton text="2" onPress={inputOneLetter('2')} />
@@ -59,7 +76,11 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
       <CircleButton text="+/-" onPress={() => {}} />
       <CircleButton text="0" onPress={inputOneLetter('0')} />
       <CircleButton text="." onPress={inputOneLetter('.')} />
-      <CircleButton text="=" buttonColor="limegreen" onPress={() => {}} />
+      <CircleButton
+        text="="
+        buttonColor="limegreen"
+        onPress={onPressCalculateButton}
+      />
     </View>
   );
 };
