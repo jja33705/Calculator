@@ -56,7 +56,6 @@ function minus(arr: string[]) {
     arr.splice(0, 2, String(result));
     console.log(arr);
     console.log('마이너스계산');
-    return;
   }
   let i = 1;
   while (i < arr.length) {

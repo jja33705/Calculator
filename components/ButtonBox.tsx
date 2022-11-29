@@ -64,26 +64,60 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
   }
 
   function onPressChangeSignButton() {
-    // console.log('누름');
-    // const lastLetter = inputValue[inputValue.length - 1];
-    // if (lastLetter >= '0' && lastLetter <= '9') {
-    //   let firstNumberIndex = 0;
-    //   for (let i = inputValue.length - 2; i >= 1; i--) {
-    //     if (
-    //       (inputValue[i] < '0' || inputValue[i] > '9') &&
-    //       inputValue !== '.'
-    //     ) {
-    //       firstNumberIndex = i + 1;
-    //       break;
-    //     }
-    //   }
-    //   changeInputValue(
-    //     `${inputValue.slice(0, firstNumberIndex)}(-${inputValue.slice(
-    //       firstNumberIndex,
-    //       inputValue.length,
-    //     )})`,
-    //   );
-    // }
+    if (inputValue[0] === '-') {
+      let isAllNumber = true;
+      for (let i = 1; i < inputValue.length; i++) {
+        if (
+          (inputValue[i] > '9' || inputValue[i] < '0') &&
+          inputValue[i] !== '.'
+        ) {
+          isAllNumber = false;
+        }
+      }
+      if (isAllNumber) {
+        changeInputValue(inputValue.slice(1));
+        return;
+      }
+    }
+    const lastLetter = inputValue[inputValue.length - 1];
+    if (lastLetter >= '0' && lastLetter <= '9') {
+      let firstNumberIndex = 0;
+      for (let i = inputValue.length - 2; i >= 1; i--) {
+        if (
+          (inputValue[i] < '0' || inputValue[i] > '9') &&
+          inputValue !== '.'
+        ) {
+          firstNumberIndex = i + 1;
+          break;
+        }
+      }
+      changeInputValue(
+        `${inputValue.slice(0, firstNumberIndex)}(-${inputValue.slice(
+          firstNumberIndex,
+          inputValue.length,
+        )})`,
+      );
+    }
+    if (lastLetter === ')') {
+      const leftBracketIndex = inputValue.lastIndexOf('(');
+      if (inputValue[leftBracketIndex + 1] !== '-') {
+        return;
+      }
+      let isNumber = true;
+      for (let i = leftBracketIndex + 2; i < inputValue.length - 1; i++) {
+        if (inputValue[i] > '9' || inputValue[i] < '0') {
+          isNumber = false;
+          break;
+        }
+      }
+      if (isNumber) {
+        const number = inputValue.slice(
+          leftBracketIndex + 2,
+          inputValue.length - 1,
+        );
+        changeInputValue(inputValue.slice(0, leftBracketIndex) + number);
+      }
+    }
   }
 
   return (
