@@ -51,6 +51,13 @@ function plus(arr: string[]) {
 }
 
 function minus(arr: string[]) {
+  if (arr[0] === '-') {
+    const result = -Number(arr[1]);
+    arr.splice(0, 2, String(result));
+    console.log(arr);
+    console.log('마이너스계산');
+    return;
+  }
   let i = 1;
   while (i < arr.length) {
     if (arr[i] === '-') {
@@ -63,14 +70,31 @@ function minus(arr: string[]) {
   console.log(arr);
 }
 
+function searchPairBracket(s: string, index: number) {
+  let bracketCount = 1;
+  let result = 0;
+  for (let i = index + 1; i < s.length; i++) {
+    if (s[i] === '(') {
+      bracketCount++;
+    } else if (s[i] === ')') {
+      bracketCount--;
+      if (bracketCount === 0) {
+        result = i;
+        break;
+      }
+    }
+  }
+  return result;
+}
+
 export function calculate(s: string) {
   const arr: string[] = [];
   let i = 0;
   let lastPushedIndex = -1;
   while (i < s.length) {
     if (s[i] === '(') {
-      const rightBracketIndex = s.lastIndexOf(')');
-      arr.push(calculate(s.slice(i + 1, rightBracketIndex - 1)));
+      let rightBracketIndex = searchPairBracket(s, i);
+      arr.push(calculate(s.slice(i + 1, rightBracketIndex)));
       lastPushedIndex = rightBracketIndex;
       i = rightBracketIndex + 1;
     } else if ((s[i] > '9' || s[i] < '0') && s[i] !== '.') {
@@ -88,6 +112,7 @@ export function calculate(s: string) {
     }
   }
   console.log(arr);
+  console.log('calcurate기본 분리 끝남');
   percent(arr);
   divide(arr);
   multiply(arr);

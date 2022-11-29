@@ -42,10 +42,10 @@ export function validateBeforeCalculate(s: string) {
   return false;
 }
 
-export function validateOneLetter(inputValue: string, newLetter: string) {
+export function validateNewLetter(inputValue: string, newLetter: string) {
   const lastLetter = inputValue[inputValue.length - 1];
   if (inputValue.length === 0 || lastLetter === '(') {
-    return !['%', '÷', '×', '-', '+', '.'].includes(newLetter);
+    return !['%', '÷', '×', '-', '+', '.', '0'].includes(newLetter);
   }
   if (lastLetter === ')') {
     return ['%', '÷', '×', '-', '+'].includes(newLetter);

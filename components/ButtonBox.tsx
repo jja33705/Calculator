@@ -4,7 +4,7 @@ import CircleButton from './CircleButton';
 import { calculate } from '../utils/calculation';
 import {
   validateBeforeCalculate,
-  validateOneLetter,
+  validateNewLetter,
 } from '../utils/validation';
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
 const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
   function inputOneLetter(newLetter: string) {
     return function () {
-      if (validateOneLetter(inputValue, newLetter)) {
+      if (validateNewLetter(inputValue, newLetter)) {
         changeInputValue(inputValue + newLetter);
       } else {
         console.log('유효하지 않은 입력입니다.');
@@ -34,6 +34,29 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
     } else {
       console.log('유효하지 않은 수식입니다.' + inputValue);
     }
+  }
+
+  function onPressChangeSignButton() {
+    // console.log('누름');
+    // const lastLetter = inputValue[inputValue.length - 1];
+    // if (lastLetter >= '0' && lastLetter <= '9') {
+    //   let firstNumberIndex = 0;
+    //   for (let i = inputValue.length - 2; i >= 1; i--) {
+    //     if (
+    //       (inputValue[i] < '0' || inputValue[i] > '9') &&
+    //       inputValue !== '.'
+    //     ) {
+    //       firstNumberIndex = i + 1;
+    //       break;
+    //     }
+    //   }
+    //   changeInputValue(
+    //     `${inputValue.slice(0, firstNumberIndex)}(-${inputValue.slice(
+    //       firstNumberIndex,
+    //       inputValue.length,
+    //     )})`,
+    //   );
+    // }
   }
 
   return (
@@ -74,7 +97,7 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
         textColor="limegreen"
         onPress={inputOneLetter('+')}
       />
-      <CircleButton text="+/-" onPress={() => {}} />
+      <CircleButton text="+/-" onPress={onPressChangeSignButton} />
       <CircleButton text="0" onPress={inputOneLetter('0')} />
       <CircleButton text="." onPress={inputOneLetter('.')} />
       <CircleButton
