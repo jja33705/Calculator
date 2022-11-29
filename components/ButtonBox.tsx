@@ -64,18 +64,28 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
   }
 
   function onPressChangeSignButton() {
-    if (inputValue[0] === '-') {
+    let firstIndex = 0;
+    for (let i = inputValue.length; i >= 0; i--) {
+      if (inputValue[i] === '(') {
+        firstIndex = i + 1;
+        break;
+      }
+    }
+    if (inputValue[firstIndex] === '-') {
       let isAllNumber = true;
-      for (let i = 1; i < inputValue.length; i++) {
+      for (let i = firstIndex + 1; i < inputValue.length; i++) {
         if (
           (inputValue[i] > '9' || inputValue[i] < '0') &&
           inputValue[i] !== '.'
         ) {
           isAllNumber = false;
+          break;
         }
       }
       if (isAllNumber) {
-        changeInputValue(inputValue.slice(1));
+        changeInputValue(
+          inputValue.slice(0, firstIndex) + inputValue.slice(firstIndex + 1),
+        );
         return;
       }
     }
