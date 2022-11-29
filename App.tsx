@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Modal, StatusBar, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import InputBox from './components/InputBox';
 import MenuBar from './components/MenuBar';
 import ButtonBox from './components/ButtonBox';
+import HistoryModal from './components/HistoryModal';
 
 const App = () => {
   const [inputValue, setInputValue] = useState('');
@@ -12,21 +13,24 @@ const App = () => {
     setInputValue(s);
   }
 
-  function showModal() {
-    setModalVisible(true);
+  function changeModalVisible(value: boolean) {
+    return function () {
+      setModalVisible(value);
+    };
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
-      <Modal animationType="slide" transparent={true} visible={modalVisible}>
-        <Text style={{ fontSize: 200 }}>굳</Text>
-      </Modal>
+      <HistoryModal
+        modalVisible={modalVisible}
+        closeModal={changeModalVisible(false)}
+      />
       <InputBox inputValue={inputValue} />
       <MenuBar
         changeInputValue={changeInputValue}
         inputValue={inputValue}
-        showModal={showModal}
+        showModal={changeModalVisible(true)}
       />
       <ButtonBox changeInputValue={changeInputValue} inputValue={inputValue} />
     </SafeAreaView>
