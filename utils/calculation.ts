@@ -8,7 +8,6 @@ function percent(arr: string[]) {
       i++;
     }
   }
-  console.log(arr);
 }
 
 function divide(arr: string[]) {
@@ -21,7 +20,6 @@ function divide(arr: string[]) {
       i++;
     }
   }
-  console.log(arr);
 }
 
 function multiply(arr: string[]) {
@@ -34,7 +32,6 @@ function multiply(arr: string[]) {
       i++;
     }
   }
-  console.log(arr);
 }
 
 function plus(arr: string[]) {
@@ -47,15 +44,12 @@ function plus(arr: string[]) {
       i++;
     }
   }
-  console.log(arr);
 }
 
 function minus(arr: string[]) {
   if (arr[0] === '-') {
     const result = -Number(arr[1]);
     arr.splice(0, 2, String(result));
-    console.log(arr);
-    console.log('마이너스계산');
   }
   let i = 1;
   while (i < arr.length) {
@@ -66,7 +60,6 @@ function minus(arr: string[]) {
       i++;
     }
   }
-  console.log(arr);
 }
 
 function searchPairBracket(s: string, index: number) {
@@ -110,8 +103,6 @@ export function calculate(s: string) {
       }
     }
   }
-  console.log(arr);
-  console.log('calcurate기본 분리 끝남');
   percent(arr);
   divide(arr);
   multiply(arr);

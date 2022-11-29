@@ -5,9 +5,10 @@ import ImageButton from './ImageButton';
 type Props = {
   changeInputValue: (s: string) => void;
   inputValue: string;
+  showModal: () => void;
 };
 
-const MenuBar = ({ changeInputValue, inputValue }: Props) => {
+const MenuBar = ({ changeInputValue, inputValue, showModal }: Props) => {
   function onPressBackSpace() {
     if (inputValue.length <= 0) {
       return;
@@ -17,7 +18,7 @@ const MenuBar = ({ changeInputValue, inputValue }: Props) => {
 
   return (
     <View style={styles.container}>
-      <ImageButton icon="history" onPress={() => {}} />
+      <ImageButton icon="history" onPress={showModal} />
       <ImageButton icon="backspace" onPress={onPressBackSpace} />
     </View>
   );

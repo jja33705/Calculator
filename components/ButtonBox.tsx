@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CircleButton from './CircleButton';
 import { calculate } from '../utils/calculation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   validateBeforeCalculate,
   validateNewLetter,
@@ -27,10 +28,20 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
     changeInputValue('');
   }
 
-  function onPressCalculateButton() {
+  async function onPressCalculateButton() {
     if (validateBeforeCalculate(inputValue)) {
-      const result = calculate(inputValue);
-      changeInputValue(result);
+      try {
+        const jsonStoredValue = await AsyncStorage.getItem('history');
+        const storedValue: string[] =
+          jsonStoredValue !== null ? JSON.parse(jsonStoredValue) : [];
+        storedValue.push(inputValue);
+        const jsonNewValue = JSON.stringify(storedValue);
+        await AsyncStorage.setItem('history', jsonNewValue);
+        const result = calculate(inputValue);
+        changeInputValue(result);
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log('유효하지 않은 수식입니다.' + inputValue);
     }
