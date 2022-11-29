@@ -36,6 +36,33 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
     }
   }
 
+  function onPressBracketButton() {
+    if (inputValue.length === 0) {
+      changeInputValue('(');
+      return;
+    }
+    const lastLetter = inputValue[inputValue.length - 1];
+    if (['%', '÷', '×', '-', '+', '('].includes(lastLetter)) {
+      changeInputValue(inputValue + '(');
+      return;
+    }
+    if (lastLetter === '.') {
+      return;
+    }
+    let leftBracketCount = 0;
+    let rightBracketCount = 0;
+    for (let i = 0; i < inputValue.length; i++) {
+      if (inputValue[i] === '(') {
+        leftBracketCount++;
+      } else if (inputValue[i] === ')') {
+        rightBracketCount++;
+      }
+    }
+    if (leftBracketCount > rightBracketCount) {
+      changeInputValue(inputValue + ')');
+    }
+  }
+
   function onPressChangeSignButton() {
     // console.log('누름');
     // const lastLetter = inputValue[inputValue.length - 1];
@@ -62,7 +89,11 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
   return (
     <View style={styles.container}>
       <CircleButton text="C" textColor="red" onPress={clearInputValue} />
-      <CircleButton text="()" textColor="limegreen" onPress={() => {}} />
+      <CircleButton
+        text="()"
+        textColor="limegreen"
+        onPress={onPressBracketButton}
+      />
       <CircleButton
         text="%"
         textColor="limegreen"
