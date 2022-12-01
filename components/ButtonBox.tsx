@@ -2,11 +2,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CircleButton from './CircleButton';
 import { calculate } from '../utils/calculation';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   validateBeforeCalculate,
   validateNewLetter,
 } from '../utils/validation';
+import { setHistories, getHistories } from '../utils/asyncStorage';
 
 type Props = {
   changeInputValue: (c: string) => void;
@@ -31,14 +31,12 @@ const ButtonBox = ({ changeInputValue, inputValue }: Props) => {
   async function onPressCalculateButton() {
     if (validateBeforeCalculate(inputValue)) {
       try {
-        const jsonStoredValue = await AsyncStorage.getItem('history');
-        const storedValue: string[] =
-          jsonStoredValue !== null ? JSON.parse(jsonStoredValue) : [];
-        storedValue.push(inputValue);
-        const jsonNewValue = JSON.stringify(storedValue);
-        await AsyncStorage.setItem('history', jsonNewValue);
+        const expression = inputValue;
         const result = calculate(inputValue);
         changeInputValue(result);
+        const histories = await getHistories();
+        histories.unshift({ expression, result });
+        setHistories(histories);
       } catch (e) {
         console.log(e);
       }

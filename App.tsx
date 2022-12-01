@@ -25,6 +25,7 @@ const App = () => {
       <HistoryModal
         modalVisible={modalVisible}
         closeModal={changeModalVisible(false)}
+        changeInputValue={changeInputValue}
       />
       <InputBox inputValue={inputValue} />
       <MenuBar
